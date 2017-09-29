@@ -1,0 +1,44 @@
+### GLAS data read in HDF5 format
+
+import os
+
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+from mpl_toolkits.basemap import Basemap
+import numpy as np
+import h5py
+
+FILE_NAME = "GLAH14_634_1102_002_0001_0_01_0001.H5"
+#FILE_NAME = "GLAH01_033_1102_002_0001_2_02_0001.H5"
+
+f = h5py.File(FILE_NAME, mode='r')
+help(f)
+
+def printname(name):
+     print name
+ 
+f.visit(printname)
+
+	
+latvar = f['/Data_1HZ/Geolocation/d1_pred_lat']
+latitude = latvar[:]
+		
+lonvar = f['/Data_1HZ/Geolocation/d1_pred_lon']
+longitude = lonvar[:]
+		
+wfvar = f['/Data_40HZ/Waveform/RecWaveform/r_rng_wf']
+waveform = wfvar[:]
+		
+nsvar = f['/Data_40HZ/Waveform/Characteristics/d_4nsBgMean']
+noise = nsvar[:]
+		
+		time = f['/Data_1HZ/Time/d_UTCTime_1'][:]
+
+#PLOT WAVEFORM
+plt.plot(waveform[10000])
+plt.ylim((0,0.2))
+plt.show()
+
+plt.xlim((0,200))
+
+
